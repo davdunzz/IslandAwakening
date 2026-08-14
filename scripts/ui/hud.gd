@@ -18,6 +18,8 @@ func setup(player:Node)->void:
 
 func _build()->void:
 	var root:=Control.new(); root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(root)
+	# L'HUD rimane visibile ma non intercetta il mouse durante il gioco.
+	root.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	var top:=PanelContainer.new(); top.position=Vector2(35,30); top.size=Vector2(560,110); top.add_theme_stylebox_override("panel",_panel_style(Color(0.02,0.05,0.09,.82))); root.add_child(top); var box:=VBoxContainer.new(); box.add_theme_constant_override("separation",5); top.add_child(box); mission_title=Label.new(); mission_title.add_theme_font_size_override("font_size",18); mission_title.add_theme_color_override("font_color",Color("f5bf42")); box.add_child(mission_title); objective=Label.new(); objective.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; box.add_child(objective)
 	health_bar=_bar(Color("e34f64")); health_bar.position=Vector2(35,780); root.add_child(health_bar); stamina_bar=_bar(Color("f5bf42")); stamina_bar.position=Vector2(35,818); root.add_child(stamina_bar)
 	weapon_label=Label.new(); weapon_label.position=Vector2(1210,790); weapon_label.size=Vector2(330,30); weapon_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT; weapon_label.add_theme_font_size_override("font_size",18); root.add_child(weapon_label); ammo_label=Label.new(); ammo_label.position=Vector2(1210,820); ammo_label.size=Vector2(330,35); ammo_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT; ammo_label.add_theme_font_size_override("font_size",22); root.add_child(ammo_label)
