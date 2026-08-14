@@ -5,9 +5,11 @@ var player:CharacterBody3D
 var hud:CanvasLayer
 var rng:=RandomNumberGenerator.new()
 var world_size:=260.0
+var terrain_textures:Dictionary={}
 
 func start_world(save_data:Dictionary)->void:
 	rng.seed=88421
+	_load_environment_textures()
 	_build_environment(); _build_island(); _build_landmarks()
 	player=preload("res://scripts/player/player_controller.gd").new(); player.name="Player"; player.add_to_group("player"); add_child(player); player.global_position=Vector3(0,3,112)
 	_build_gameplay()
@@ -77,9 +79,33 @@ func _build_gameplay()->void:
 
 func _add_box(node_name:String,size:Vector3,pos:Vector3,color:Color,collision:bool)->Node3D:
 	var node:=StaticBody3D.new() if collision else Node3D.new(); node.name=node_name; node.position=pos; add_child(node)
-	var visual:=MeshInstance3D.new(); var mesh:=BoxMesh.new(); mesh.size=size; visual.mesh=mesh; var mat:=StandardMaterial3D.new(); mat.albedo_color=color; mat.roughness=.92; visual.material_override=mat; node.add_child(visual)
+	var visual:=MeshInstance3D.new(); var mesh:=BoxMesh.new(); mesh.size=size; visual.mesh=mesh; visual.material_override=_environment_material(node_name,color,size); node.add_child(visual)
 	if collision: var col:=CollisionShape3D.new(); var shape:=BoxShape3D.new(); shape.size=size; col.shape=shape; node.add_child(col)
 	return node
+
+func _load_environment_textures()->void:
+	terrain_textures={
+		"sand":load("res://assets/textures/environment/sand_albedo.jpg"),
+		"ground":load("res://assets/textures/environment/forest_ground_albedo.jpg"),
+		"rock":load("res://assets/textures/environment/rock_albedo.jpg"),
+		"wood":load("res://assets/textures/environment/wood_albedo.jpg")
+	}
+
+func _environment_material(node_name:String,color:Color,size:Vector3)->StandardMaterial3D:
+	var mat:=StandardMaterial3D.new()
+	mat.albedo_color=color
+	mat.roughness=.86
+	mat.texture_filter=BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	var texture_key:=""
+	if node_name in ["BeachIsland","Path"]: texture_key="sand"
+	elif node_name in ["InnerIsland","Highlands"]: texture_key="ground"
+	elif node_name in ["Cliff","Column","ROVINE","GROTTA"]: texture_key="rock"
+	elif node_name in ["House","RIFUGIO","VILLAGGIO ABBANDONATO"]: texture_key="wood"
+	if texture_key!="":
+		mat.albedo_texture=terrain_textures.get(texture_key)
+		mat.albedo_color=Color.WHITE
+		mat.uv1_scale=Vector3(maxf(1.0,size.x/5.0),maxf(1.0,size.z/5.0),maxf(1.0,size.y/4.0))
+	return mat
 
 func _add_tree(pos:Vector3,scale_value:float)->void:
 	var tree:=Node3D.new(); tree.position=pos; tree.scale=Vector3.ONE*scale_value; add_child(tree)
