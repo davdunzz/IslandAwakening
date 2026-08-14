@@ -1,8 +1,15 @@
 # Asset e licenze
 
+## Texture incluse nel progetto
+
+Le texture `sand_albedo.jpg`, `forest_ground_albedo.jpg`, `rock_albedo.jpg` e
+`wood_albedo.jpg` sono texture originali generate appositamente per Island Awakening.
+Sono incluse nella licenza del progetto e possono essere modificate e ridistribuite
+insieme al gioco.
+
 ## Contenuto incluso
 
-La versione presente nella repository non redistribuisce texture, modelli o suoni di terze parti. Geometrie, materiali, cielo, acqua, vegetazione, edifici e indicatori sono generati a runtime tramite primitive e materiali Godot. Il codice originale del progetto è distribuito con licenza MIT.
+La versione presente nella repository non redistribuisce texture, modelli o suoni di terze parti. Geometrie, cielo, acqua, vegetazione, edifici e indicatori sono generati a runtime; i materiali principali utilizzano le texture originali incluse. Il codice originale del progetto è distribuito con licenza MIT.
 
 ## Upgrade visivo CC0 consigliato
 
