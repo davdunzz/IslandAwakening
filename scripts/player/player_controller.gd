@@ -28,10 +28,14 @@ func _ready()->void:
 	var collider:=CollisionShape3D.new(); var shape:=CapsuleShape3D.new(); shape.radius=.42; shape.height=1.8; collider.shape=shape; collider.position.y=.9; add_child(collider)
 	var body:=MeshInstance3D.new(); var mesh:=CapsuleMesh.new(); mesh.radius=.42; mesh.height=1.8; body.mesh=mesh; body.position.y=.9; body.visible=false; add_child(body)
 
-func _unhandled_input(event:InputEvent)->void:
+func _input(event:InputEvent)->void:
+	# L'input diretto evita che i Control dell'HUD consumino il movimento del mouse.
 	if event is InputEventMouseMotion and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.relative.x*mouse_sensitivity); head.rotation.x=clampf(head.rotation.x-event.relative.y*mouse_sensitivity,-1.45,1.45)
 		if not looked_once and event.relative.length()>3: looked_once=true; MissionManager.register_event("look")
+	if event is InputEventMouseButton and event.pressed and Input.mouse_mode==Input.MOUSE_MODE_VISIBLE:
+		if not get_tree().paused:
+			Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
 	if event.is_action_pressed("attack") and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED: weapon_system.attack()
 	if event.is_action_pressed("interact"): interact()
 	if event.is_action_pressed("reload"): weapon_system.reload()
