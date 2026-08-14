@@ -20,7 +20,9 @@ jobs:
       - name: Controlla progetto
         run: godot --headless --path . --editor --quit
       - name: Esporta Windows
-        run: godot --headless --path . --export-release "Windows Desktop" builds/IslandAwakening.exe
+        run: |
+          mkdir -p builds
+          godot --headless --path . --export-release "Windows Desktop" builds/IslandAwakening.exe
       - name: Carica gioco scaricabile
         uses: actions/upload-artifact@v4
         with:
