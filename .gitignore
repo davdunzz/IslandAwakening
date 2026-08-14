@@ -1,0 +1,9 @@
+.godot/
+builds/*
+!builds/.gitkeep
+*.tmp
+*.log
+*.translation
+export_credentials.cfg
+.DS_Store
+Thumbs.db
