@@ -1,0 +1,12 @@
+COME CARICARE ISLAND AWAKENING SU GITHUB
+
+1. Crea un nuovo repository vuoto su GitHub.
+2. Apri il repository e premi Add file > Upload files.
+3. Trascina TUTTO il contenuto della cartella IslandAwakening, non la cartella esterna.
+4. Verifica che project.godot sia nella pagina principale del repository.
+5. Conferma con Commit changes.
+6. Apri Actions e seleziona "Crea gioco Windows".
+7. Se richiesto, premi Run workflow.
+8. Al termine apri il workflow verde e scarica IslandAwakening-Windows dagli Artifacts.
+
+Per modificare il gioco installa Godot 4.7.1 e importa project.godot.
